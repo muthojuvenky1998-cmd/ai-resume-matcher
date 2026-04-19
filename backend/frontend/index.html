@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Resume Matcher</title>
+</head>
+<body>
+  <h2>AI Resume Matcher</h2>
+
+  <textarea id="resume" placeholder="Paste your resume here"></textarea><br><br>
+  <textarea id="job" placeholder="Paste job description here"></textarea><br><br>
+
+  <button onclick="checkMatch()">Check Match</button>
+
+  <h3 id="result"></h3>
+
+  <script>
+    async function checkMatch() {
+      const resume = document.getElementById("resume").value;
+      const job = document.getElementById("job").value;
+
+      const response = await fetch("http://localhost:3000/match", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ resume, job })
+      });
+
+      const data = await response.json();
+      document.getElementById("result").innerText =
+        "Match Score: " + data.matchPercentage + "%";
+    }
+  </script>
+</body>
+</html>
